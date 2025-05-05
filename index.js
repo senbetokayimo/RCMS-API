@@ -9,3 +9,27 @@ a=2;
 
 console.log(a);
 
+if(a===2){
+    console.log("Correct")
+}else{
+    console.log("Incorrect")
+}
+
+const array1=[1,2,3,4,5];
+for (let i=0; i<array1.length; i++)
+    console.log(`number_${i+1}`)
+
+// Function
+
+function addition(a,b){
+    return a+b;
+};
+console.log(addition(4,5));
+
+
+//Arrow Function
+const addition1=(a,b)=>{
+    return a+b;
+};
+console.log(addition1(4,5));
+
