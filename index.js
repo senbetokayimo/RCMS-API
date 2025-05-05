@@ -28,8 +28,21 @@ console.log(addition(4,5));
 
 
 //Arrow Function
+setTimeout(()=>{
+    console.log("test test")
+}, 1000);
+
 const addition1=(a,b)=>{
     return a+b;
 };
 console.log(addition1(4,5));
+
+
+//object
+const data={
+    name:"abebe",
+    age:24,
+};
+
+console.log(data.name)
 
