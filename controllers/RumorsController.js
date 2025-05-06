@@ -51,16 +51,20 @@ const getAllRumours = async (req, res) => {
 
 };
 
-
 const getRumoursById = (req, res) => {
+  try{
   const id = req?.params.id;
   const rumour = rummers.find((rum) => rum.id == id);
   if (!rumour) {
     return res.status(404).json({ message: "rummour not found" });
   }
   res.json(rumour);
+} catch (error){
+  console.log(error);
+  res.status(500).send("internal server error");
+}
 };
-
+/*
 const updateRumourById = (req, res) => {
   const id = req.params.id;
   const rummerUpdate = req.body;
@@ -79,7 +83,35 @@ const updateRumourById = (req, res) => {
   rumour.reporting_date = rummerUpdate.reporting_date;
 
   res.json({ message: "successfully updated", data: rumour });
+};*/
+
+const updateRumourById = async(req, res) => {
+  try {
+  const id = req.params.id;
+  const rummerUpdate = req.body;
+  //   const rumour = rummers.find((rum) => rum.id === parseInt(id));
+  const rumour = await Roumers.findById(id);
+  console.log(id);
+  if (!rumour) {
+    return res.status(404).json({ message: "rummour not found" });
+  }
+  rumour.name = rummerUpdate.name ? rummerUpdate.name : rumour.name;
+  rumour.sign = rummerUpdate.sign;
+  rumour.description = rummerUpdate.description;
+  rumour.region = rummerUpdate.region;
+  rumour.zone = rummerUpdate.zone;
+  rumour.kebele = rummerUpdate.kebele;
+  rumour.number_of_case = rummerUpdate.number_of_case;
+  rumour.number_of_death = rummerUpdate.number_of_death;
+  rumour.reporting_date = rummerUpdate.reporting_date;
+  await rumour.save();
+  res.json({ message: "successfully updated", data: rumour });
+} catch (error) {
+  console.log(error);
+  res.json(500).send("internal server error");
+}
 };
+
 
 const createNewRumour = async(req,res)=>{
   const newRumour = new Roumers({
@@ -98,10 +130,24 @@ const createNewRumour = async(req,res)=>{
   res.json({message:"Rumour Created Successfully",data:newRumour});
 }
 
+const deleteRumourById = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const rumour = await Roumers.findByIdAndDelete(id);
+    if (!rumour) {
+      return res.status(404).json({ message: "roumour not found" });
+    }
+    res.json({ message: "rummer is deleted successfully" });
+  } catch (error) {
+    res.status(500).send("internal server error");
+  }
+};
+
 
 module.exports = {
 getAllRumours,
 getRumoursById,
 updateRumourById,
+deleteRumourById,
 createNewRumour
 };
