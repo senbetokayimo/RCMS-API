@@ -1,4 +1,5 @@
-const rumaddmers =[{
+const rummers =[{
+  id:1,
   name: "measels out break",
   sign: " fever,rush, vomiting",
   description: "50 people dead by measels out break around hawassa",
@@ -11,6 +12,7 @@ const rumaddmers =[{
   reporting_date: "10/02/2025",
 },
 {
+  id:2,
   name: "malaria out break",
   sign: " fever, vomiting",
   description: "10 people dead by measels out break around hawassa",
@@ -23,6 +25,7 @@ const rumaddmers =[{
   reporting_date: "10/03/2025",
 },
 {
+  id:3,
   name: "cholera out break",
   sign: " fever, vomiting, diarrhea",
   description: "15 people dead by measels out break around hawassa",
@@ -40,6 +43,18 @@ const getAllRumours = (req, res) => {
 res.json(rummers);
 };
 
+
+const getRumoursById = (req, res) => {
+  const id = req?.params.id;
+  const rumour = rummers.find((rum) => rum.id == id);
+  if (!rumour) {
+    return res.status(404).json({ message: "rummour not found" });
+  }
+  res.json(rumour);
+};
+
+
 module.exports = {
 getAllRumours,
+getRumoursById
 };

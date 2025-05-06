@@ -4,5 +4,6 @@ rummersController = require("../controllers/RumorsController");
 const rummersRouter = express.Router();
 
 rummersRouter.get("/", rummersController.getAllRumours);
+rummersRouter.get("/:id", rummersController.getRumoursById);
 
 module.exports = rummersRouter;
