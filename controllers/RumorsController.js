@@ -1,3 +1,5 @@
+const Roumers = require("../models/Roumers");
+
 const rummers =[{
   id:1,
   name: "measels out break",
@@ -39,8 +41,14 @@ const rummers =[{
 },
 ];
 
-const getAllRumours = (req, res) => {
-res.json(rummers);
+const getAllRumours = async (req, res) => {
+  try {
+    const rms = await Roumers.find();
+    res.json(rms);
+  } catch (error) {
+    console.log(error);
+  }
+
 };
 
 
@@ -73,8 +81,8 @@ const updateRumourById = (req, res) => {
   res.json({ message: "successfully updated", data: rumour });
 };
 
-const createNewRumour = (req,res)=>{
-  const newRumour ={
+const createNewRumour = async(req,res)=>{
+  const newRumour = new Roumers({
     id: rummers.length+1,
     name:req.body.name,
     sign:req.body.sign,
@@ -85,8 +93,8 @@ const createNewRumour = (req,res)=>{
     number_of_case:req.body.number_of_case,
     number_of_death:req.body.number_of_death,
     reporting_date:req.body.reporting_date
-  };
-  rummers.push(newRumour);
+  });
+  await newRumour.save();//rummers.push(newRumour);
   res.json({message:"Rumour Created Successfully",data:newRumour});
 }
 
