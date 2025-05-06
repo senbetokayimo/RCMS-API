@@ -53,8 +53,47 @@ const getRumoursById = (req, res) => {
   res.json(rumour);
 };
 
+const updateRumourById = (req, res) => {
+  const id = req.params.id;
+  const rummerUpdate = req.body;
+  const rumour = rummers.find((rum) => rum.id == id);
+  if (!rumour) {
+    return res.status(404).json({ message: "rummour not found" });
+  }
+  rumour.name = rummerUpdate.name ? rummerUpdate.name : rumour.name;
+  rumour.sign = rummerUpdate.sign;
+  rumour.description = rummerUpdate.description;
+  rumour.region = rummerUpdate.region;
+  rumour.zone = rummerUpdate.zone;
+  rumour.kebele = rummerUpdate.kebele;
+  rumour.number_of_case = rummerUpdate.number_of_case;
+  rumour.number_of_death = rummerUpdate.number_of_death;
+  rumour.reporting_date = rummerUpdate.reporting_date;
+
+  res.json({ message: "successfully updated", data: rumour });
+};
+
+const createNewRumour = (req,res)=>{
+  const newRumour ={
+    id: rummers.length+1,
+    name:req.body.name,
+    sign:req.body.sign,
+    description:req.body.description,
+    region:req.body.region,
+    zone:req.body.zone,
+    kebele:req.body.kebele,
+    number_of_case:req.body.number_of_case,
+    number_of_death:req.body.number_of_death,
+    reporting_date:req.body.reporting_date
+  };
+  rummers.push(newRumour);
+  res.json({message:"Rumour Created Successfully",data:newRumour});
+}
+
 
 module.exports = {
 getAllRumours,
-getRumoursById
+getRumoursById,
+updateRumourById,
+createNewRumour
 };
